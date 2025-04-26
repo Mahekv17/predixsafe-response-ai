@@ -94,15 +94,16 @@ const EmergencyHotspot = ({ position }: { position: [number, number, number] }) 
   );
 };
 
-// Ground plane with grid texture
-const Ground = () => {
+// Grid helper for ground
+const GridFloor = () => {
   return (
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 0]}>
-      <planeGeometry args={[100, 100]} />
-      <meshStandardMaterial color="#222222">
-        <gridTexture args={[100, 100]} />
-      </meshStandardMaterial>
-    </mesh>
+    <group>
+      <gridHelper args={[100, 100]} />
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 0]}>
+        <planeGeometry args={[100, 100]} />
+        <meshStandardMaterial color="#222222" transparent opacity={0.6} />
+      </mesh>
+    </group>
   );
 };
 
@@ -177,8 +178,8 @@ const CityBlocks = () => {
       {buildings.map((building, index) => (
         <Building 
           key={index} 
-          position={building.position} 
-          size={building.size} 
+          position={building.position as [number, number, number]} 
+          size={building.size as [number, number, number]} 
           color={building.color} 
         />
       ))}
@@ -210,7 +211,7 @@ const CityScene = () => {
     [4, 0, -2],
     [-2, 0, -4],
     [6, 0, 6],
-  ];
+  ] as [number, number, number][];
   
   return (
     <>
@@ -227,20 +228,20 @@ const CityScene = () => {
       />
       
       {/* City elements */}
-      <Ground />
+      <GridFloor />
       <Roads />
       <CityBlocks />
       
       {/* Emergency elements */}
       {hotspots.map((position, index) => (
-        <EmergencyHotspot key={index} position={position as [number, number, number]} />
+        <EmergencyHotspot key={index} position={position} />
       ))}
       
       {emergencyVehicles.map((vehicle, index) => (
         <EmergencyVehicle 
           key={index} 
-          position={vehicle.position} 
-          destination={vehicle.destination}
+          position={vehicle.position as [number, number, number]} 
+          destination={vehicle.destination as [number, number, number]}
           vehicleType={vehicle.type}
         />
       ))}
