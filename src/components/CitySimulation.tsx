@@ -1,11 +1,37 @@
 
 import React, { useRef, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Sky, useTexture, Text } from '@react-three/drei';
+import { OrbitControls, Sky, Text } from '@react-three/drei';
 import * as THREE from 'three';
 
+// Type definitions for our components
+type Position3D = [number, number, number];
+type Size3D = [number, number, number];
+type HotspotSeverity = 'low' | 'medium' | 'high';
+type VehicleType = 'ambulance' | 'firetruck';
+
+interface Hotspot {
+  id: number;
+  position: Position3D;
+  severity: HotspotSeverity;
+}
+
+interface Vehicle {
+  id: number;
+  position: Position3D;
+  destination: Position3D;
+  type: VehicleType;
+  speed: number;
+}
+
+interface BuildingProps {
+  position: Position3D;
+  size: Size3D;
+  color: string;
+}
+
 // Simple building component
-const Building = ({ position, size, color }: { position: [number, number, number]; size: [number, number, number]; color: string }) => {
+const Building = ({ position, size, color }: BuildingProps) => {
   return (
     <mesh position={position}>
       <boxGeometry args={size} />
@@ -20,9 +46,9 @@ const EmergencyVehicle = ({
   destination, 
   vehicleType 
 }: { 
-  position: [number, number, number]; 
-  destination: [number, number, number];
-  vehicleType: 'ambulance' | 'firetruck'
+  position: Position3D; 
+  destination: Position3D;
+  vehicleType: VehicleType;
 }) => {
   const vehicleRef = useRef<THREE.Mesh>(null);
   
@@ -72,8 +98,17 @@ const EmergencyVehicle = ({
 };
 
 // Emergency hotspot with animation
-const EmergencyHotspot = ({ position }: { position: [number, number, number] }) => {
+const EmergencyHotspot = ({ position, severity = 'medium' }: { position: Position3D, severity?: HotspotSeverity }) => {
   const [intensity, setIntensity] = useState(0.5);
+  
+  // Get color based on severity
+  const getColor = () => {
+    switch(severity) {
+      case 'low': return '#ffcc00';
+      case 'high': return '#ff0000';
+      default: return '#ff3b30'; // medium
+    }
+  };
   
   // Pulsing animation
   useFrame(() => {
@@ -84,10 +119,10 @@ const EmergencyHotspot = ({ position }: { position: [number, number, number] }) 
     <mesh position={[position[0], position[1] + 0.05, position[2]]}>
       <cylinderGeometry args={[1.5, 1.5, 0.1, 32]} />
       <meshStandardMaterial 
-        color="#ff3b30" 
+        color={getColor()} 
         transparent={true} 
         opacity={0.3 + intensity * 0.2} 
-        emissive="#ff3b30"
+        emissive={getColor()}
         emissiveIntensity={intensity}
       />
     </mesh>
@@ -144,7 +179,7 @@ const Roads = () => {
 // City blocks with buildings
 const CityBlocks = () => {
   // Define different building types and positions
-  const buildings = [
+  const buildings: BuildingProps[] = [
     // Downtown area
     { position: [3, 1, 3], size: [1, 2, 1], color: "#556677" },
     { position: [3, 1.5, 1], size: [1, 3, 1], color: "#445566" },
@@ -178,8 +213,8 @@ const CityBlocks = () => {
       {buildings.map((building, index) => (
         <Building 
           key={index} 
-          position={building.position as [number, number, number]} 
-          size={building.size as [number, number, number]} 
+          position={building.position} 
+          size={building.size} 
           color={building.color} 
         />
       ))}
@@ -198,20 +233,20 @@ const CityScene = () => {
   }, [camera]);
   
   // Emergency vehicles with destinations (towards emergency hotspots)
-  const emergencyVehicles = [
-    { position: [-10, 0.2, -5], destination: [-2, 0.2, 3], type: 'ambulance' as const },
-    { position: [10, 0.2, 5], destination: [4, 0.2, -2], type: 'firetruck' as const },
-    { position: [-7, 0.2, 8], destination: [-2, 0.2, -4], type: 'ambulance' as const },
-    { position: [8, 0.2, -9], destination: [6, 0.2, 6], type: 'firetruck' as const },
+  const emergencyVehicles: Vehicle[] = [
+    { id: 1, position: [-10, 0.2, -5], destination: [-2, 0.2, 3], type: 'ambulance', speed: 0.04 },
+    { id: 2, position: [10, 0.2, 5], destination: [4, 0.2, -2], type: 'firetruck', speed: 0.03 },
+    { id: 3, position: [-7, 0.2, 8], destination: [-2, 0.2, -4], type: 'ambulance', speed: 0.04 },
+    { id: 4, position: [8, 0.2, -9], destination: [6, 0.2, 6], type: 'firetruck', speed: 0.03 },
   ];
   
   // Emergency hotspots
-  const hotspots = [
-    [-2, 0, 3],
-    [4, 0, -2],
-    [-2, 0, -4],
-    [6, 0, 6],
-  ] as [number, number, number][];
+  const hotspots: Hotspot[] = [
+    { id: 1, position: [-2, 0, 3], severity: 'high' },
+    { id: 2, position: [4, 0, -2], severity: 'medium' },
+    { id: 3, position: [-2, 0, -4], severity: 'low' },
+    { id: 4, position: [6, 0, 6], severity: 'high' },
+  ];
   
   return (
     <>
@@ -233,15 +268,19 @@ const CityScene = () => {
       <CityBlocks />
       
       {/* Emergency elements */}
-      {hotspots.map((position, index) => (
-        <EmergencyHotspot key={index} position={position} />
+      {hotspots.map((hotspot) => (
+        <EmergencyHotspot 
+          key={hotspot.id} 
+          position={hotspot.position} 
+          severity={hotspot.severity}
+        />
       ))}
       
-      {emergencyVehicles.map((vehicle, index) => (
+      {emergencyVehicles.map((vehicle) => (
         <EmergencyVehicle 
-          key={index} 
-          position={vehicle.position as [number, number, number]} 
-          destination={vehicle.destination as [number, number, number]}
+          key={vehicle.id} 
+          position={vehicle.position} 
+          destination={vehicle.destination}
           vehicleType={vehicle.type}
         />
       ))}
