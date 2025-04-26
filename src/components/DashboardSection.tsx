@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
@@ -6,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useInView } from 'react-intersection-observer';
 import { useToast } from '@/hooks/use-toast';
+import CitySimulation from './CitySimulation';
 
 const DashboardSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState('heatmap');
@@ -51,9 +51,11 @@ const DashboardSection: React.FC = () => {
                   <TabsTrigger value="heatmap">Heatmap</TabsTrigger>
                   <TabsTrigger value="resources">Resources</TabsTrigger>
                   <TabsTrigger value="predictions">Predictions</TabsTrigger>
+                  <TabsTrigger value="3dcity">3D City</TabsTrigger>
                   <TabsTrigger value="alerts">Alerts</TabsTrigger>
                 </TabsList>
                 
+                {/* Existing tab contents */}
                 <TabsContent value="heatmap" className="m-0">
                   <div className="h-[500px] relative">
                     <div className="absolute inset-0 bg-[url('https://i.imgur.com/WnOkzD6.jpg')] bg-center bg-cover opacity-70">
@@ -374,6 +376,11 @@ const DashboardSection: React.FC = () => {
                       </div>
                     </div>
                   </div>
+                </TabsContent>
+                
+                {/* New 3D City Simulation Tab */}
+                <TabsContent value="3dcity" className="m-0">
+                  <CitySimulation />
                 </TabsContent>
                 
                 <TabsContent value="alerts" className="m-0">
