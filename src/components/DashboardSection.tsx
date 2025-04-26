@@ -1,10 +1,11 @@
+
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useInView } from 'react-intersection-observer';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 const DashboardSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState('heatmap');
@@ -291,7 +292,6 @@ const DashboardSection: React.FC = () => {
                                 }}></div>
                               </div>
                             </div>
-                          </div>
                           </div>
                           <div className="grid grid-cols-2 gap-1 text-xs text-white/50 mt-2">
                             <div className="flex items-center">
