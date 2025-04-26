@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -65,52 +64,15 @@ const Navbar = () => {
           <button onClick={() => scrollToSection('how-it-works')} className="text-white hover:text-emergency-purple transition-colors duration-200">How It Works</button>
           <button onClick={() => scrollToSection('dashboard')} className="text-white hover:text-emergency-purple transition-colors duration-200">Dashboard</button>
           <button onClick={() => scrollToSection('pricing')} className="text-white hover:text-emergency-purple transition-colors duration-200">Pricing</button>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="outline" className="bg-emergency-purple text-white border-none hover:bg-emergency-purple/90">Access Platform</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] bg-emergency-dark border-emergency-purple/20">
-              <DialogHeader>
-                <DialogTitle className="text-center text-2xl font-bold text-gradient">Access PredixSafe</DialogTitle>
-              </DialogHeader>
-              <Tabs defaultValue="login">
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="login">Login</TabsTrigger>
-                  <TabsTrigger value="register">Register</TabsTrigger>
-                </TabsList>
-                <TabsContent value="login">
-                  <form onSubmit={handleSignIn} className="space-y-4 mt-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input id="email" type="email" placeholder="admin@predixsafe.com" defaultValue="demo@predixsafe.com" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="password">Password</Label>
-                      <Input id="password" type="password" defaultValue="demo123" />
-                    </div>
-                    <Button type="submit" className="w-full bg-emergency-purple hover:bg-emergency-purple/90">Sign In</Button>
-                  </form>
-                </TabsContent>
-                <TabsContent value="register">
-                  <form onSubmit={handleSignIn} className="space-y-4 mt-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="register-name">Full Name</Label>
-                      <Input id="register-name" placeholder="Emergency Coordinator" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="register-email">Email</Label>
-                      <Input id="register-email" type="email" placeholder="coordinator@yourservice.com" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="register-password">Password</Label>
-                      <Input id="register-password" type="password" />
-                    </div>
-                    <Button type="submit" className="w-full bg-emergency-purple hover:bg-emergency-purple/90">Create Account</Button>
-                  </form>
-                </TabsContent>
-              </Tabs>
-            </DialogContent>
-          </Dialog>
+          <a 
+            href="http://localhost:8501" 
+            target="_blank" 
+            rel="noopener noreferrer"
+          >
+            <Button variant="outline" className="bg-emergency-purple text-white border-none hover:bg-emergency-purple/90">
+              Access Platform
+            </Button>
+          </a>
         </div>
 
         {/* Mobile menu button */}
@@ -137,52 +99,15 @@ const Navbar = () => {
             <button onClick={() => scrollToSection('dashboard')} className="text-white text-left py-2 hover:text-emergency-purple transition-colors duration-200">Dashboard</button>
             <button onClick={() => scrollToSection('pricing')} className="text-white text-left py-2 hover:text-emergency-purple transition-colors duration-200">Pricing</button>
             
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="bg-emergency-purple text-white border-none hover:bg-emergency-purple/90">Access Platform</Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px] bg-emergency-dark border-emergency-purple/20">
-                <DialogHeader>
-                  <DialogTitle className="text-center text-2xl font-bold text-gradient">Access PredixSafe</DialogTitle>
-                </DialogHeader>
-                <Tabs defaultValue="login">
-                  <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="login">Login</TabsTrigger>
-                    <TabsTrigger value="register">Register</TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="login">
-                    <form onSubmit={handleSignIn} className="space-y-4 mt-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="mobile-email">Email</Label>
-                        <Input id="mobile-email" type="email" placeholder="admin@predixsafe.com" defaultValue="demo@predixsafe.com" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="mobile-password">Password</Label>
-                        <Input id="mobile-password" type="password" defaultValue="demo123" />
-                      </div>
-                      <Button type="submit" className="w-full bg-emergency-purple hover:bg-emergency-purple/90">Sign In</Button>
-                    </form>
-                  </TabsContent>
-                  <TabsContent value="register">
-                    <form onSubmit={handleSignIn} className="space-y-4 mt-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="mobile-register-name">Full Name</Label>
-                        <Input id="mobile-register-name" placeholder="Emergency Coordinator" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="mobile-register-email">Email</Label>
-                        <Input id="mobile-register-email" type="email" placeholder="coordinator@yourservice.com" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="mobile-register-password">Password</Label>
-                        <Input id="mobile-register-password" type="password" />
-                      </div>
-                      <Button type="submit" className="w-full bg-emergency-purple hover:bg-emergency-purple/90">Create Account</Button>
-                    </form>
-                  </TabsContent>
-                </Tabs>
-              </DialogContent>
-            </Dialog>
+            <a 
+              href="http://localhost:8501" 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              <Button className="bg-emergency-purple text-white border-none hover:bg-emergency-purple/90 w-full">
+                Access Platform
+              </Button>
+            </a>
           </div>
         </div>
       )}

@@ -80,5 +80,18 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1"
-  }
+  },
+  "description": "**URL**: https://lovable.dev/projects/5aff9f76-aa2e-4ae6-a8b6-585877612604",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mahekv17/predixsafe-response-ai.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mahekv17/predixsafe-response-ai/issues"
+  },
+  "homepage": "https://github.com/Mahekv17/predixsafe-response-ai#readme"
 }
